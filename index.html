@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+    
+    <ul id="tareas-lista"></ul>
+    
+    <input type="text" id="nueva-tarea" placeholder="Nueva tarea">
+    <button onclick="agregarTarea()">Agregar tarea</button>
+
+    <script>
+        // Obtener la lista de tareas desde localStorage al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            cargarTareas();
+        });
+/*esto es para yo tener un boceto*/
+        function agregarTarea() {
+            // Obtener el valor del campo de texto
+            const nuevaTarea = document.getElementById('nueva-tarea').value;
+
+            if (nuevaTarea.trim() !== '') {
+                // Obtener la lista actual de tareas desde localStorage
+                const tareas = JSON.parse(localStorage.getItem('tareas')) || [];
+
+                // Agregar la nueva tarea a la lista
+                tareas.push({ texto: nuevaTarea, completada: false });
+
+                // Guardar la lista actualizada en localStorage
+                localStorage.setItem('tareas', JSON.stringify(tareas));
+
+                // Recargar la lista de tareas en la interfaz
+                cargarTareas();
+
+                // Limpiar el campo de texto
+                document.getElementById('nueva-tarea').value = '';
+            }
+        }
+/*a partir de aqui yo voy a modificar todo*/
+        function cargarTareas() {
+            const tareas = JSON.parse(localStorage.getItem('tareas')) || [];
+            const listaTareas = document.getElementById('tareas-lista');
+
+            // Limpiar la lista actual en la interfaz
+            listaTareas.innerHTML = '';
+
+            // Recorrer la lista de tareas y agregar elementos a la interfaz
+            tareas.forEach(function (tarea) {
+                const li = document.createElement('li');
+                li.textContent = tarea.texto;
+
+                // Marcar como completada si es necesario
+                if (tarea.completada) {
+                    li.style.textDecoration = 'line-through';
+                }
+
+                // Agregar evento para marcar/completar tarea al hacer clic
+                li.addEventListener('click', function () {
+                    tarea.completada = !tarea.completada;
+                    localStorage.setItem('tareas', JSON.stringify(tareas));
+                    cargarTareas();
+                });
+
+                // Agregar elemento a la lista
+                listaTareas.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
