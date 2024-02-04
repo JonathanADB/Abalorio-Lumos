@@ -13,11 +13,10 @@ if(capClave == "" || capValor == ""){
 }else{
 
     localStorage.setItem(capClave,capValor);
+
+    document.getElementById("clave").value = "";
+    document.getElementById("valor").value = "";
 }
-
-
-
-
 
 }
 
