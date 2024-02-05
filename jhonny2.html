@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>0 clicks</li>
+        <li>0 clicks</li>
+        <li>0 clicks</li>
+        <li>0 clicks</li>
+      </ul>
+    
+</body>
+
+<script>
+
+const listItems = document.querySelectorAll("ul li");
+
+const handleItemClick = function (e) {
+  // Referencia al elemento clicado
+  const item = e.target;
+
+  if (!item.hasAttribute("data-count")) {
+    item.setAttribute("data-count", 0);
+  }
+
+  const updatedCount = Number(item.getAttribute("data-count")) + 1;
+
+  item.textContent = `${updatedCount} clicks`;
+
+  item.setAttribute("data-count", updatedCount);
+};
+
+for (const item of listItems) {
+  item.addEventListener("click", handleItemClick);
+}
+</script>
+</html>
